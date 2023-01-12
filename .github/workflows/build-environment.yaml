@@ -32,5 +32,5 @@ jobs:
       - name: Run Helm Command
         run: |
           cd helm
-          helm --version
+          helm version
           echo 'helm upgrade --install fsm-akka . -n feature-${{ inputs.branch-name }} --create-namespace'
