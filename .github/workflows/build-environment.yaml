@@ -29,8 +29,14 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - id: findandreplace
+        uses: mad9000/actions-find-and-replace-string@2
+        with:
+          source: ${{ inputs.branch-name }}
+          find: '/'
+          replace: '-'
       - name: Run Helm Command
         run: |
           cd helm
           helm version
-          echo 'helm upgrade --install fsm-akka . -n ${{ inputs.branch-name }} --create-namespace'
+          echo 'helm upgrade --install fsm-akka . -n ${{ steps.findandreplace.outputs.value }} --create-namespace'
