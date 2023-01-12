@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: foureyes
+  namespace: {{ .Release.Namespace }}
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: fsmakka
+  project: fsm-akka-4eyes-project
+  source:
+    repoURL: "https://github.com/mehmetsalgar/fsm-akka-dev-environment.git"
+    path: "gitops/fsmakka/"
+    directory:
+      recurse: true
+    targetRevision: helmfile
+  syncPolicy:
+    automated:
+      selfHeal: true
+      prune: true
+    syncOptions:
+      - CreateNamespace=true

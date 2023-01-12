@@ -1,0 +1,33 @@
+name: Build Environment for a Future Branch
+run-name: ${{ github.actor }}
+on:
+  workflow_dispatch:
+    inputs:
+      branch-name:
+        type: string
+jobs:
+  - id: install-kubectl
+    uses: azure/setup-kubectl@v3
+    with:
+      version: '1.26.0'
+  - name: Run Kubectl Command
+    run: |
+      kubectl version
+#  - id: kubectl-set-context
+#    uses: azure/k8s-set-context@v1
+#    with:
+#      method: kubeconfig
+#      kubeconfig: ''
+#      context: 'k3d-poc-akka'
+  - id: install
+    uses: azure/setup-helm@v3
+    with:
+      version: '3.10.3'
+  - uses: actions/checkout@v3
+    with:
+      fetch-depth: 0
+  - name: Run Helm Command
+    run: |
+      cd helm
+      helm --version
+      echo 'helm upgrade --install fsm-akka . -n feature-${{ inputs.branch-name }} --create-namespace'
