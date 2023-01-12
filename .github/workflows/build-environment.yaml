@@ -13,15 +13,15 @@ jobs:
         uses: azure/setup-kubectl@v3
         with:
           version: 'v1.26.0'
-      - name: Run Kubectl Command
-        run: |
-          kubectl version
     #  - id: kubectl-set-context
     #    uses: azure/k8s-set-context@v1
     #    with:
     #      method: kubeconfig
     #      kubeconfig: ''
     #      context: 'k3d-poc-akka'
+#      - name: Run Kubectl Command
+#        run: |
+#          kubectl version
       - id: install
         uses: azure/setup-helm@v3
         with:
