@@ -1,4 +1,4 @@
-name: Build Environment for a Future Branch
+name: Clean Environment for a Future Branch
 run-name: ${{ github.actor }}
 on:
   workflow_dispatch:
