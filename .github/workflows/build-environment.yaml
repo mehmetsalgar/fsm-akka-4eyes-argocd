@@ -1,4 +1,4 @@
-name: Build Environment for a Future Branch
+name: Create ArgoCD Application for Future Branch Environment
 run-name: ${{ github.actor }}
 on:
   workflow_dispatch:
