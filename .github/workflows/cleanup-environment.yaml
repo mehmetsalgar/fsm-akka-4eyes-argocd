@@ -6,7 +6,7 @@ on:
       branch-name:
         type: string
 jobs:
-  build-environment-for-future-branch:
+  clean-environment-for-future-branch:
     runs-on: ubuntu-latest
     steps:
       - id: install-kubectl
