@@ -8,7 +8,7 @@ on:
 jobs:
   calculate-branch-name:
     outputs:
-      branchName: ${{ teps.findandreplace.outputs.value }}
+      branchName: ${{ steps.findandreplace.outputs.value }}
     steps:
       - id: findandreplace
         uses: mad9000/actions-find-and-replace-string@2
