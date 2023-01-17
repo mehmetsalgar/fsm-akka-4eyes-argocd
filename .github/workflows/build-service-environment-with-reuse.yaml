@@ -6,7 +6,9 @@ on:
       branch-name:
         type: string
 jobs:
-  call-build-environment-for-future-branch:
+  calculate-branch-name:
+    outputs:
+      branchName: ${{ teps.findandreplace.outputs.value }}
     steps:
       - id: findandreplace
         uses: mad9000/actions-find-and-replace-string@2
@@ -14,8 +16,9 @@ jobs:
           source: ${{ inputs.branch-name }}
           find: '/'
           replace: '-'
-      - name: Helm Install
-        uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
-        with:
-          branch-name: ${{ inputs.branch-name }}
-          helm-command: helm upgrade --install fsm-akka . -n ${{ steps.findandreplace.outputs.value }} --create-namespace
+  call-build-environment-for-future-branch:
+    needs: calculate-branch-name
+    uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
+    with:
+      branch-name: ${{ inputs.branch-name }}
+      helm-command: helm upgrade --install fsm-akka . -n ${{ needs.calculate-branch-name.branchName }} --create-namespace
