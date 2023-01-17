@@ -1,0 +1,13 @@
+name: Create ArgoCD Application for Future Branch Environment
+run-name: ${{ github.actor }}
+on:
+  workflow_dispatch:
+    inputs:
+      branch-name:
+        type: string
+jobs:
+  call-build-environment-for-future-branch:
+    uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
+    with:
+      branch-name: ${{ inputs.branch-name }}
+      helm-command: helm version
