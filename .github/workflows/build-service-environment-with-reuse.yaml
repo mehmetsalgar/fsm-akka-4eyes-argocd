@@ -19,9 +19,9 @@ jobs:
           replace: '-'
   call-build-environment-for-future-branch:
     needs: calculate-branch-name
+    uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     env:
       branchName: ${{ needs.calculate-branch-name.branchName }}
-    uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
       branch-name: ${{ inputs.branch-name }}
       helm-command: helm upgrade --install fsm-akka . -n ${{ env.branchName }} --create-namespace
