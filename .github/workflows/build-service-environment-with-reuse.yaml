@@ -22,4 +22,4 @@ jobs:
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
       branch-name: ${{ inputs.branch-name }}
-      helm-command: helm upgrade --install fsm-akka . -n ${{ ${{ needs.calculate-branch-name.outputs.branchName }} }} --create-namespace
+      helm-command: helm upgrade --install fsm-akka . -n ${{ needs.calculate-branch-name.outputs.branchName }} --create-namespace
