@@ -9,12 +9,18 @@ jobs:
   calculate-branch-name:
     runs-on: ubuntu-latest
     outputs:
-      branchName: ${{ steps.findandreplace.outputs.value }}
+      branchName: ${{ steps.findandreplace1.outputs.value }}
     steps:
       - id: findandreplace
         uses: mad9000/actions-find-and-replace-string@2
         with:
           source: ${{ inputs.branch-name }}
+          find: '/'
+          replace: '-'
+      - id: findandreplace1
+        uses: mad9000/actions-find-and-replace-string@2
+        with:
+          source: ${{ steps.findandreplace.outputs.value }}
           find: '/'
           replace: '-'
   call-build-environment-for-future-branch:
