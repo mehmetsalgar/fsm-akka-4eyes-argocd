@@ -27,4 +27,4 @@ jobs:
     needs: calculate-branch-name
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
-      helm-command: helm upgrade --install fsm-akka . -n ${{ needs.calculate-branch-name.outputs.branchName }} --create-namespace
+      helm-command: helm upgrade --install fsm-akka . -n ${{ needs.calculate-branch-name.outputs.branchName }} --create-namespace --set targetBranch=${{ inputs.branch-name }}

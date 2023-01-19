@@ -15,7 +15,7 @@ spec:
     path: "gitops/fsmakka/"
     directory:
       recurse: true
-    targetRevision: helmfile
+    targetRevision: ${{ .Values.targetBranch }}
   syncPolicy:
     automated:
       selfHeal: true
