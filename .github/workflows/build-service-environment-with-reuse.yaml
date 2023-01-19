@@ -21,7 +21,7 @@ jobs:
         uses: mad9000/actions-find-and-replace-string@2
         with:
           source: ${{ steps.findandreplace.outputs.value }}
-          find: '/'
+          find: '.'
           replace: '-'
   call-build-environment-for-future-branch:
     needs: calculate-branch-name
