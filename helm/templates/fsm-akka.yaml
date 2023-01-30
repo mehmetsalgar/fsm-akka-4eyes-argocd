@@ -8,7 +8,7 @@ metadata:
 spec:
   destination:
     server: https://kubernetes.default.svc
-    namespace: fsmakka
+    namespace: {{ .Release.Namespace }}
   project: fsm-akka-4eyes-project
   source:
     repoURL: "https://github.com/mehmetsalgar/fsm-akka-dev-environment.git"
