@@ -1,5 +1,5 @@
 name: Create ArgoCD Application for Future Branch Environment
-run-name: ${{ github.actor }}
+run-name: Create ArgoCD Application for branch '¢{{ inputs.branch-name }}' triggered via ${{ github.event_name }} by ${{ github.actor }}
 on:
   workflow_dispatch:
     inputs:
