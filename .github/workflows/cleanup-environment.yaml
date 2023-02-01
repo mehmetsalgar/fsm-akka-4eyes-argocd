@@ -1,5 +1,5 @@
 name: Clean Environment for a Future Branch
-run-name: ${{ github.actor }}
+run-name: Clean Environment branch ${{ inputs.branch-name }} triggered via ${{ github.event_name }} by ${{ github.actor }}
 on:
   workflow_dispatch:
     inputs:
