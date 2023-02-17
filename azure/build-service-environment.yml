@@ -1,0 +1,11 @@
+name: Build Service Environment
+trigger: none
+
+stages:
+  - stage: Build
+    jobs:
+      - job: BuildServiceEnvironmentWithArgoCD
+        displayName: Build Service Environment with ArgoCD
+        steps:
+          - bash: |
+              echo 'Halli hallo'
