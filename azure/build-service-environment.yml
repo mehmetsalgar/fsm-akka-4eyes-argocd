@@ -31,7 +31,7 @@ stages:
               secureFile: 'K8S_CLIENT_KEY.txt'
           - pwsh: |
               kubectl config set-cluster fsmakkaAKS --server=$(K8S_SERVER) --insecure-skip-tls-verify=true
-              kubectl config set-credentials $(K8S_USER) --client-certificate=(Get-Content $(clientCertificate.secureFilePath)) | ConvertTo-SecureString --client-key=(Get-Content $(clientKey.secureFilePath)) | ConvertTo-SecureString
+              kubectl config set-credentials $(K8S_USER) --client-certificate=(Get-Content $(clientCertificate.secureFilePath)) --client-key=(Get-Content $(clientKey.secureFilePath))
               kubectl config set-context $(K8S_CONTEXT) --cluster=$(K8S_CLUSTER) --namespace=default --user=$(USER)
               kubectl config use-context $(K8S_CONTEXT)
               $namespace = $env:BRANCH_NAME.replace('/', '-').replace('.', '-')
