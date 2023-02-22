@@ -30,6 +30,7 @@ stages:
             inputs:
               secureFile: 'K8S_CLIENT_KEY.txt'
           - pwsh: |
+              az login
               az aks get-credentials --resource-group fsm-akka --name $(K8S_SERVER)
               $namespace = $env:BRANCH_NAME.replace('/', '-').replace('.', '-')
               Write-Host "Namespace: $namespace"
