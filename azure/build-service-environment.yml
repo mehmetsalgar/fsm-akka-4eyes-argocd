@@ -19,7 +19,9 @@ stages:
       - job: CalculateNamespace
         steps:
           - bash: |
-              echo "##vso[task.setvariable variable=myNameSpace;isoutput=true]$bn | sed -e "s#/#-#g" | sed -e "s#\.#-#g""
+              namespace=$(echo $bn | sed -e "s#/#-#g" | sed -e "s#\.#-#g")
+              echo "Namespace: $namespace"
+              echo "##vso[task.setvariable variable=myNameSpace;isoutput=true]$namespace"
             name: cbn
             env:
               bn: ${{ parameters.branchName }}
