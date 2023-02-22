@@ -19,9 +19,19 @@ stages:
       - job: BuildServiceEnvironmentWithArgoCD
         displayName: Build Service Environment with ArgoCD
         steps:
+          - task: DownloadSecureFile@1
+            name: clientCertificate
+            displayName: "Download Client Certificate"
+            inputs:
+              secureFile: 'K8S_CLIENT_CERTIFICATE.txt'
+          - task: DownloadSecureFile@1
+            name: clientKey
+            displayName: "Download Client Key"
+            inputs:
+              secureFile: 'K8S_CLIENT_KEY.txt'
           - pwsh: |
               kubectl config set-cluster fsmakkaAKS --server=$(K8S_SERVER) --insecure-skip-tls-verify=true
-              kubectl config set-credentials $(K8S_USER) --client-certificate=$(K8S_CLIENT_CERTIFICATE) --client-key=$(K8S_CLIENT_KEY)
+              kubectl config set-credentials $(K8S_USER) --client-certificate=(Get-Content $(clientCertificate.secureFilePath)) | ConvertTo-SecureString --client-key=(Get-Content $(clientCertificate.clientKey)) | ConvertTo-SecureString
               kubectl config set-context $(K8S_CONTEXT) --cluster=$(K8S_CLUSTER) --namespace=default --user=$(USER)
               kubectl config use-context $(K8S_CONTEXT)
               $namespace = $env:BRANCH_NAME.replace('/', '-').replace('.', '-')
