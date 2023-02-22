@@ -23,7 +23,7 @@ stages:
               Write-Host "Namespace: $namespace"
               helm registry login fsmakka.azurecr.io --username $(HELM_USER) --password $(HELM_PASSWORD)
               Write-Host "Command: helm upgrade --install fsm-akka . -n $namespace --create-namespace --set targetBranch=$env:BRANCH_NAME"
-              #helm upgrade --install fsm-akka . -n $namespace --create-namespace --set targetBranch=$env:BRANCH_NAME
+              helm upgrade --install fsm-akka . -n $namespace --create-namespace --set targetBranch=$env:BRANCH_NAME
             displayName: Install ArgoCD Custom Resource Definition
             env:
               BRANCH_NAME: ${{ parameters.branchName }}
