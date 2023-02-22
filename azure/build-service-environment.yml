@@ -16,19 +16,20 @@ variables:
 stages:
   - stage: Build
     jobs:
+      - job: CalculateNamespace
+        steps:
+          - bash: |
+              echo "##vso[task.setvariable variable=myNameSpace;isoutput=true]$bn | sed -r 's////-/g' | sed -r 's//./-/g"
+            name: cbn
+            env:
+              bn: ${{ parameters.branchName }}
       - job: BuildServiceEnvironmentWithArgoCD
         displayName: Build Service Environment with ArgoCD
-        steps:
-          - task: DownloadSecureFile@1
-            name: clientCertificate
-            displayName: "Download Client Certificate"
-            inputs:
-              secureFile: 'K8S_CLIENT_CERTIFICATE.txt'
-          - task: DownloadSecureFile@1
-            name: clientKey
-            displayName: "Download Client Key"
-            inputs:
-              secureFile: 'K8S_CLIENT_KEY.txt'
+        dependsOn:
+          - CalculateNamespace
+        variables:
+          name-space: $[dependencies.CalculateNamespace.outputs['cbn.myNameSpace']]
+        steps: 
           - task: HelmDeploy@0
             inputs:
               kubernetesCluster: 'fsmakkaAKS'
@@ -40,7 +41,7 @@ stages:
               chartType: FilePath
               chartPath: 'helm'
               releaseName: 'fsm-akka'
-              namespace: ${{ parameters.branchName.replace('/', '-').replace('.', '-') }}
+              namespace: $(name-space)
               command: 'upgrade'
               arguments: '--install --create-namespace '
               overrideValues: |
