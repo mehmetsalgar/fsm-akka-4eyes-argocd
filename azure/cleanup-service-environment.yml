@@ -1,0 +1,27 @@
+name: Cleanup Service Environment
+trigger: none
+
+parameters:
+  - name: branchName
+    type: string
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: HELM_VARIABLES
+- group: DOCKER_VARIABLES
+- group: KUBECTL_VARIABLES
+
+stages:
+  - stage: Deploy
+    jobs:
+      - job: CalculateNamespace
+        steps:
+          - bash: |
+              namespace=$(echo $bn | sed -e "s#/#-#g" | sed -e "s#\.#-#g")
+              echo "Namespace: $namespace"
+              echo "##vso[task.setvariable variable=myNameSpace;isoutput=true]$namespace"
+            name: cbn
+            env:
+              bn: ${{ parameters.branchName }}
