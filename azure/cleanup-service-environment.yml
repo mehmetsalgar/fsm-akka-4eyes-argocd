@@ -25,3 +25,21 @@ stages:
             name: cbn
             env:
               bn: ${{ parameters.branchName }}
+      - job: RemoveServiceEnvironmentWithArgoCD
+        displayName: Removce Service Environment with ArgoCD
+        dependsOn:
+          - CalculateNamespace
+        variables:
+          name-space: $[dependencies.CalculateNamespace.outputs['cbn.myNameSpace']]
+        steps: 
+          - task: HelmDeploy@0
+            inputs:
+              kubernetesCluster: 'fsmakkaAKS'
+              azureSubscriptionForACR: '$(K8S_SUBS)'
+              azureResourceGroupForACR: 'fsm-akka'
+              connectionType: Kubernetes Service Connection
+              kubernetesServiceConnection: 'fsm_akka_aks'
+              azureContainerRegistry: 'fsm_akka_docker_registry'
+              releaseName: 'fsm-akka'
+              namespace: $(name-space)
+              command: 'delete'
