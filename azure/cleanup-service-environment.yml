@@ -43,3 +43,4 @@ stages:
               releaseName: 'fsm-akka'
               namespace: $(name-space)
               command: 'delete'
+              arguments: 'fsm-akka'
