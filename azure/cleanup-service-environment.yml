@@ -26,7 +26,7 @@ stages:
             env:
               bn: ${{ parameters.branchName }}
       - job: RemoveServiceEnvironmentWithArgoCD
-        displayName: Removce Service Environment with ArgoCD
+        displayName: Remove Service Environment with ArgoCD
         dependsOn:
           - CalculateNamespace
         variables:
