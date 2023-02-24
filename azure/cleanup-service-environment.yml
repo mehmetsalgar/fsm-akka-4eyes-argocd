@@ -44,3 +44,10 @@ stages:
               namespace: $(name-space)
               command: 'delete'
               arguments: 'fsm-akka'
+          - task: Kubernetes@1
+            inputs:
+              connectionType: Kubernetes Service Connection
+              kubernetesCluster: 'fsmakkaAKS'
+              kubernetesServiceEndpoint: 'fsm_akka_aks'
+              command: 'delete'
+              arguments: "namespace $(name-space)"
