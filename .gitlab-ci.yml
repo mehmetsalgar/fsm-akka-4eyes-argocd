@@ -24,5 +24,7 @@ build-service-environment:
       gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
       gcloud container clusters get-credentials fsmakka-gke-dev --zone europe-west3-c --project fsmakka
       cd helm
-      helm upgrade --install --create-namespace  fsm-akka-4eyes . -n $NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
+      ls -al
+      echo "helm upgrade --install fsm-akka-4eyes . --create-namespace -n $NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME"
+      helm upgrade --install fsm-akka-4eyes . --create-namespace -n $NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
       rm /tmp/$CI_PIPELINE_ID.json
