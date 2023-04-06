@@ -1,0 +1,4 @@
+cluster:
+  name: fsmakkaAKS
+source:
+  path: "gitops/fsmakka/"

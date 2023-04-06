@@ -7,12 +7,12 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    name: fsmakkaAKS
+    name: {{ .Values.cluster.name }}
     namespace: {{ .Release.Namespace }}
   project: fsm-akka-4eyes-project
   source:
     repoURL: "https://github.com/mehmetsalgar/fsm-akka-dev-environment.git"
-    path: "gitops/fsmakka/"
+    path: {{ .Values.source.path }}
     directory:
       recurse: true
     targetRevision: {{ .Values.targetBranch }}

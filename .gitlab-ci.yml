@@ -1,0 +1,27 @@
+stages:
+  - deploy
+
+variables:
+  CI_IMAGE_VERSION: v17.36.0
+  NAMESPACE: ""
+
+build-service-environment-namespace:
+  stage: deploy
+  script:
+    - |
+      export
+      NAMESPACE=echo $BRANCH_NAME | sed -e "s#/#-#g" | sed -e "s#\.#-#g" | sed -e "s#_#-#g"
+      NAMESPACE=${NAMESPACE@L}
+
+build-service-environment:
+  stage: deploy
+  image: "${CI_REGISTRY}/gitlab-com/gl-infra/k8s-workloads/common/k8-helm-ci:${CI_IMAGE_VERSION}"
+  needs:
+    - build-service-environment-namespace
+  script:
+    - |
+      echo $SERVICE_ACCOUNT > /temp/$CI_PIPELINE_ID.json
+      gcloud auth activate-service-account --key-file 
+      gcloud container clusters get-credentials fsmakka-gke-dev --zone europe-west3-c --project fsmakka
+      helm upgrade --install --create-namespace  fsm-akka-4eyes . -n $NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
+      rm /tmp/$CI_PIPELINE_ID.json
