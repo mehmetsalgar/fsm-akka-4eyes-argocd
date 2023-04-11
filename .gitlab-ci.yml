@@ -17,7 +17,8 @@ build-service-environment:
   stage: deploy
   image: "${CI_REGISTRY}/gitlab-com/gl-infra/k8s-workloads/common/k8-helm-ci:${CI_IMAGE_VERSION}"
   needs:
-    - build-service-environment-namespace
+    - job: build-service-environment-namespace
+      artifacts: true
   script:
     - |
       echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
