@@ -11,8 +11,7 @@ build-service-environment-namespace:
     - |
       export
       set +e
-      echo $BRANCH_NAME
-      K8S_NAMESPACE="bla bla"
+      K8S_NAMESPACE=$(echo $BRANCH_NAME | sed -e "s#/#-#g" )
       echo "Namespace: $K8S_NAMESPACE"
       K8S_NAMESPACE=${K8S_NAMESPACE@L}
 
