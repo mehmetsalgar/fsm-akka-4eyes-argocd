@@ -3,7 +3,7 @@ stages:
 
 variables:
   CI_IMAGE_VERSION: v17.36.0
-  NAMESPACE: ""
+  K8S_NAMESPACE: ""
 
 build-service-environment-namespace:
   stage: deploy
@@ -11,10 +11,10 @@ build-service-environment-namespace:
     - |
       export
       set +e
-      NAMESPACE=echo $BRANCH_NAME
+      K8S_NAMESPACE=echo $BRANCH_NAME
 
-      echo "Namespace: $NAMESPACE"
-      NAMESPACE=${NAMESPACE@L}
+      echo "Namespace: K8S_NAMESPACE"
+      K8S_NAMESPACE=${K8S_NAMESPACE@L}
 
 build-service-environment:
   stage: deploy
@@ -29,6 +29,6 @@ build-service-environment:
       gcloud container clusters get-credentials fsmakka-gke-dev --zone europe-west3-c --project fsmakka
       cd helm
       ls -al
-      echo "helm upgrade --install fsm-akka-4eyes . --create-namespace -n $NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME"
-      helm upgrade --install fsm-akka-4eyes . --create-namespace -n $NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
+      echo "helm upgrade --install fsm-akka-4eyes . --create-namespace -n $K8S_NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME"
+      helm upgrade --install fsm-akka-4eyes . --create-namespace -n $K8S_NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
       rm /tmp/$CI_PIPELINE_ID.json
