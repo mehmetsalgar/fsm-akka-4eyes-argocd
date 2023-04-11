@@ -3,7 +3,6 @@ stages:
 
 variables:
   CI_IMAGE_VERSION: v17.36.0
-  K8S_NAMESPACE: ""
 
 build-service-environment-namespace:
   stage: deploy
@@ -13,8 +12,12 @@ build-service-environment-namespace:
       set +e
       K8S_NAMESPACE=$(echo $BRANCH_NAME | sed -e "s#/#-#g" | sed -e "s#\.#-#g" | sed -e "s#_#-#g")
       echo "Namespace: $K8S_NAMESPACE"
-      export K8S_NAMESPACE=$(echo $K8S_NAMESPACE | tr '[:upper:]' '[:lower:]')
-      echo "Namespace: $K8S_NAMESPACE"
+      K8S_NAMESPACE=$(echo $K8S_NAMESPACE | tr '[:upper:]' '[:lower:]')
+      echo "K8S_NAMESPACE=$K8S_NAMESPACE" > build.env
+  artifacts:
+    reports:
+      dotenv: build.env
+
 
 build-service-environment:
   stage: deploy
