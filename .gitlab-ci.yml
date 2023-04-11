@@ -10,6 +10,7 @@ build-service-environment-namespace:
   script:
     - |
       export
+      set +e
       NAMESPACE=echo $BRANCH_NAME | sed -e "s#/#-#g" | sed -e "s#\.#-#g" | sed -e "s#_#-#g"
       NAMESPACE=${NAMESPACE@L}
 
