@@ -11,7 +11,7 @@ build-service-environment-namespace:
     - |
       export
       set +e
-      NAMESPACE = echo $BRANCH_NAME | sed -e "s#/#-#g"
+      NAMESPACE=echo $BRANCH_NAME
 
       echo "Namespace: $NAMESPACE"
       NAMESPACE=${NAMESPACE@L}
