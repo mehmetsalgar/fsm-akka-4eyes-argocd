@@ -18,7 +18,6 @@ build-service-environment-namespace:
     reports:
       dotenv: build.env
 
-
 build-service-environment:
   stage: deploy
   image: "${CI_REGISTRY}/gitlab-com/gl-infra/k8s-workloads/common/k8-helm-ci:${CI_IMAGE_VERSION}"
@@ -35,3 +34,28 @@ build-service-environment:
       echo "helm upgrade --install fsm-akka-4eyes . --create-namespace -n $K8S_NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME"
       helm upgrade --install fsm-akka-4eyes . --create-namespace -n $K8S_NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
       rm /tmp/$CI_PIPELINE_ID.json
+  rules:
+    - if: $USE_CASE_2 == "true"
+      when: always
+    - when: never
+
+cleanup-service-environment:
+  stage: deploy
+  image: "${CI_REGISTRY}/gitlab-com/gl-infra/k8s-workloads/common/k8-helm-ci:${CI_IMAGE_VERSION}"
+  needs:
+    - job: build-service-environment-namespace
+      artifacts: true
+  script:
+    - |
+      export
+      echo $SERVICE_ACCOUNT > /tmp/$CI_PIPELINE_ID.json
+      gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+      gcloud container clusters get-credentials fsmakka-gke-dev --zone europe-west3-c --project fsmakka
+      cd helm
+      echo "helm delete fsm-akka-4eyes -n $K8S_NAMESPACE -f values-gke.yaml"
+      helm delete fsm-akka-4eyes -n $K8S_NAMESPACE -f values-gke.yaml
+      rm /tmp/$CI_PIPELINE_ID.json
+  rules:
+    - if: $USE_CASE_3 == "true"
+      when: always
+    - when: never
