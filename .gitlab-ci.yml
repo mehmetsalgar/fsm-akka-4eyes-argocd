@@ -54,6 +54,7 @@ cleanup-service-environment:
       cd helm
       echo "helm delete fsm-akka-4eyes -n $K8S_NAMESPACE"
       helm delete fsm-akka-4eyes -n $K8S_NAMESPACE
+      kubectl delete namespace $K8S_NAMESPACE
       rm /tmp/$CI_PIPELINE_ID.json
   rules:
     - if: $USE_CASE_3 == "true"
