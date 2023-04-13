@@ -35,7 +35,7 @@ build-service-environment:
       helm upgrade --install fsm-akka-4eyes . --create-namespace -n $K8S_NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
       rm /tmp/$CI_PIPELINE_ID.json
   rules:
-    - if: $USE_CASE_2 == "true"
+    - if: $USE_CASE_2 == "true" && $USE_CASE_3 != "true"
       when: always
     - when: never
 
@@ -52,8 +52,8 @@ cleanup-service-environment:
       gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
       gcloud container clusters get-credentials fsmakka-gke-dev --zone europe-west3-c --project fsmakka
       cd helm
-      echo "helm delete fsm-akka-4eyes -n $K8S_NAMESPACE -f values-gke.yaml"
-      helm delete fsm-akka-4eyes -n $K8S_NAMESPACE -f values-gke.yaml
+      echo "helm delete fsm-akka-4eyes -n $K8S_NAMESPACE"
+      helm delete fsm-akka-4eyes -n $K8S_NAMESPACE
       rm /tmp/$CI_PIPELINE_ID.json
   rules:
     - if: $USE_CASE_3 == "true"
