@@ -57,6 +57,6 @@ cleanup-service-environment:
       kubectl delete namespace $K8S_NAMESPACE
       rm /tmp/$CI_PIPELINE_ID.json
   rules:
-    - if: $USE_CASE_3 == "true"
+    - if: ($USE_CASE_3 == "true" || $USE_CASE_5 == "true")
       when: always
     - when: never
