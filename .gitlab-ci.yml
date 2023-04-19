@@ -9,8 +9,8 @@ export:
   script:
     - |
       export
-  rules:
-    - if: '$CI'
+  only:
+    - merge_request
 
 build-service-environment-namespace:
   stage: deploy
