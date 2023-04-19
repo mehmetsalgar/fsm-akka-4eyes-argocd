@@ -10,7 +10,7 @@ export:
     - |
       export
   only:
-    - merge_request
+    - pipelines
 
 build-service-environment-namespace:
   stage: deploy
