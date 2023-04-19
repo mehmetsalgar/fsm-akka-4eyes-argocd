@@ -4,14 +4,6 @@ stages:
 variables:
   CI_IMAGE_VERSION: v17.36.0
 
-export:
-  stage: deploy
-  script:
-    - |
-      export
-  only:
-    - pipelines
-
 build-service-environment-namespace:
   stage: deploy
   script:
@@ -43,7 +35,7 @@ build-service-environment:
       helm upgrade --install fsm-akka-4eyes . --create-namespace -n $K8S_NAMESPACE -f values-gke.yaml --set targetBranch=$BRANCH_NAME
       rm /tmp/$CI_PIPELINE_ID.json
   rules:
-    - if: ($USE_CASE_2 == "true" || $USE_CASE_4 == "true" || $USE_CASE_6 == "true") && $USE_CASE_3 != "true" && $USE_CASE_5 != "true" && $USE_CASE_7 != "true"
+    - if: ($USE_CASE_2 == "true" || $USE_CASE_4 == "true" || $USE_CASE_6 == "true") && $USE_CASE_3 != "true" && $USE_CASE_5 != "true" && $USE_CASE_7 != "true" && $USE_CASE_11 != "true"
       when: always
     - when: never
 
@@ -65,6 +57,6 @@ cleanup-service-environment:
       kubectl delete namespace $K8S_NAMESPACE
       rm /tmp/$CI_PIPELINE_ID.json
   rules:
-    - if: ($USE_CASE_3 == "true" || $USE_CASE_5 == "true" || $USE_CASE_7 == "true")
+    - if: ($USE_CASE_3 == "true" || $USE_CASE_5 == "true" || $USE_CASE_7 == "true" || $USE_CASE_11 == "true")
       when: always
     - when: never
