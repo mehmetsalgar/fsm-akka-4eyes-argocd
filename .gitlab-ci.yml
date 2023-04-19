@@ -4,6 +4,12 @@ stages:
 variables:
   CI_IMAGE_VERSION: v17.36.0
 
+export:
+  stage: deploy
+  script:
+    - |
+      export
+
 build-service-environment-namespace:
   stage: deploy
   script:
