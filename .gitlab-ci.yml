@@ -9,6 +9,8 @@ export:
   script:
     - |
       export
+  rules:
+    - if: '$CI'
 
 build-service-environment-namespace:
   stage: deploy
