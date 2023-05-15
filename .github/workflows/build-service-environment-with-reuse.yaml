@@ -27,6 +27,9 @@ jobs:
           find: '.'
           replace: '-'
   call-build-environment-for-future-branch:
+    permissions:
+      contents: 'read'
+      id-token: 'write'
     needs: calculate-branch-name
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
