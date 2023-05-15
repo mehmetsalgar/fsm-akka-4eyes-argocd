@@ -20,18 +20,21 @@ jobs:
           source: ${{ inputs.branch-name }}
           find: '/'
           replace: '-'
+          replaceAll: 'true'
       - id: findandreplace1
         uses: mad9000/actions-find-and-replace-string@2
         with:
           source: ${{ steps.findandreplace.outputs.value }}
           find: '.'
           replace: '-'
+          replaceAll: 'true'
       - id: findandreplace2
         uses: mad9000/actions-find-and-replace-string@2
         with:
           source: ${{ steps.findandreplace1.outputs.value }}
           find: '_'
           replace: '-'
+          replaceAll: 'true'
   call-build-environment-for-future-branch:
     permissions:
       contents: 'read'
