@@ -1,1 +1,1 @@
-helm upgrade --install  fsm-akka-4eyes . -n fsmakka
+helm upgrade --install  fsm-akka-4eyes . -n fsmakka -f values-gke-github.yaml
