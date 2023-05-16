@@ -6,7 +6,7 @@ on:
       branch-name:
         type: string
 jobs:
-  calculate-branch-name:
+  calculate-namespace:
     runs-on: ubuntu-latest
     outputs:
       branchName: ${{ steps.findandreplace2.outputs.value }}
@@ -39,5 +39,5 @@ jobs:
     needs: calculate-branch-name
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
-      helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-branch-name.outputs.branchName }} --create-namespace --set targetBranch=${{ inputs.branch-name }} -f values-gke-github.yaml"
+      helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.branchName }} --create-namespace --set targetBranch=${{ inputs.branch-name }} -f values-gke-github.yaml"
     secrets: inherit

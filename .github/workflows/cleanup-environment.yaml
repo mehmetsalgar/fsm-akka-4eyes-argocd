@@ -6,7 +6,7 @@ on:
       branch-name:
         type: string
 jobs:
-  calculate-branch-name:
+  calculate-namespace:
     runs-on: ubuntu-latest
     outputs:
       branchName: ${{ steps.findandreplace2.outputs.value }}
@@ -36,8 +36,8 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    needs: calculate-branch-name
+    needs: calculate-namespace
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
-      helm-command: "helm delete fsm-akka -n ${{ needs.calculate-branch-name.outputs.branchName }}"
+      helm-command: "helm delete fsm-akka -n ${{ needs.calculate-namespace.outputs.branchName }}"
     secrets: inherit
