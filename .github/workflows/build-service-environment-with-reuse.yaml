@@ -9,7 +9,7 @@ jobs:
   calculate-namespace:
     runs-on: ubuntu-latest
     outputs:
-      branchName: ${{ steps.findandreplace2.outputs.value }}
+      namespace: ${{ steps.findandreplace2.outputs.value }}
     steps:
       - id: findandreplace
         uses: mad9000/actions-find-and-replace-string@3
@@ -39,5 +39,5 @@ jobs:
     needs: calculate-branch-name
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
-      helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.branchName }} --create-namespace --set targetBranch=${{ inputs.branch-name }} -f values-gke-github.yaml"
+      helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} -f values-gke-github.yaml"
     secrets: inherit
