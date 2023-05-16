@@ -6,10 +6,37 @@ on:
       branch-name:
         type: string
 jobs:
+  calculate-branch-name:
+    runs-on: ubuntu-latest
+    outputs:
+      branchName: ${{ steps.findandreplace2.outputs.value }}
+    steps:
+      - id: findandreplace
+        uses: mad9000/actions-find-and-replace-string@3
+        with:
+          source: ${{ inputs.branch-name }}
+          find: '/'
+          replace: '-'
+          replaceAll: 'true'
+      - id: findandreplace1
+        uses: mad9000/actions-find-and-replace-string@3
+        with:
+          source: ${{ steps.findandreplace.outputs.value }}
+          find: '.'
+          replace: '-'
+          replaceAll: 'true'
+      - id: findandreplace2
+        uses: mad9000/actions-find-and-replace-string@3
+        with:
+          source: ${{ steps.findandreplace1.outputs.value }}
+          find: '_'
+          replace: '-'
+          replaceAll: 'true'
   clean-environment-for-future-branch:
     permissions:
       contents: 'read'
       id-token: 'write'
+    needs: calculate-branch-name
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
       helm-command: "helm delete fsm-akka -n ${{ needs.calculate-branch-name.outputs.branchName }}"
