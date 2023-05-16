@@ -6,9 +6,6 @@ on:
       branch-name:
         type: string
 jobs:
-  permissions:
-    contents: 'read'
-    id-token: 'write'
   calculate-branch-name:
     runs-on: ubuntu-latest
     outputs:
