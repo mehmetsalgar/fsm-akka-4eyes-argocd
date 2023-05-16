@@ -36,7 +36,7 @@ jobs:
     permissions:
       contents: 'read'
       id-token: 'write'
-    needs: calculate-branch-name
+    needs: calculate-namespace
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
       helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} -f values-gke-github.yaml"
