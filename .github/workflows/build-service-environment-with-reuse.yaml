@@ -5,6 +5,7 @@ on:
     inputs:
       branch-name:
         type: string
+        required: true
 jobs:
   calculate-namespace:
     runs-on: ubuntu-latest
