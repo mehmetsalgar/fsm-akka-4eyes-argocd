@@ -9,6 +9,9 @@ on:
       cluster-name:
         type: string
         required: true
+      cluster-name-not-normalised:
+        type: string
+        required: true
 jobs:
   calculate-namespace:
     runs-on: ubuntu-latest
@@ -45,4 +48,5 @@ jobs:
     with:
       helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} --set cluster.name=${{ inputs.cluster-name }} -f values-gke-github.yaml"
       cluster-name: "${{ inputs.cluster-name }}"
+      cluster-name-not-normalised: "${{ inputs.cluster-name-not-normalised }}"
     secrets: inherit

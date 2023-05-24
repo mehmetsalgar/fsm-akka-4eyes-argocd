@@ -6,7 +6,7 @@ on:
       branch-name:
         type: string
         required: true
-      cluster-name:
+      cluster-name-not-normalised:
         type: string
         required: true
 jobs:
@@ -45,5 +45,5 @@ jobs:
     with:
       helm-command: "helm delete fsm-akka -n ${{ needs.calculate-namespace.outputs.namespace }}
                      kubectl delete namespace ${{ needs.calculate-namespace.outputs.namespace }}"
-      cluster-name: ${{ inputs.cluster-name }}
+      cluster-name-not-normalised: "${{ inputs.cluster-name-not-normalised }}"
     secrets: inherit
