@@ -6,9 +6,9 @@ on:
       branch-name:
         type: string
         required: true
-      day-over:
-        type: boolean
-        default: false
+      cluster-name:
+        type: string
+        required: true
 jobs:
   calculate-namespace:
     runs-on: ubuntu-latest
@@ -36,33 +36,13 @@ jobs:
           find: '_'
           replace: '-'
           replaceAll: 'true'
-  calculate-helm-command:
-    runs-on: ubuntu-latest
-    needs: calculate-namespace
-    outputs:
-      helm-command: ${{ steps.dayOver.outputs.helm_command}}
-      cluster-name: ${{ steps.dayOver.outputs.cluster_name}}
-    steps:
-      - id: dayOver
-        shell: bash
-        env:
-          DAY_OVER: ${{ inputs.day-over }}
-        run: |
-          if test true -eq $DAY_OVER; then
-            #file exists
-            echo "helm_command=helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} --set cluster.name=fsmakkaGKEDayOver -f values-gke-github.yaml" >> "$GITHUB_OUTPUT"
-            echo "cluster_name=fsmakka-gke-dev-day-over" >> "$GITHUB_OUTPUT"
-          else
-            echo "helm_command=helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} -f values-gke-github.yaml" >> "$GITHUB_OUTPUT"
-            echo "cluster_name=fsmakka-gke-dev" >> "$GITHUB_OUTPUT"
-          fi
   call-build-environment-for-branch:
     permissions:
       contents: 'read'
       id-token: 'write'
-    needs: calculate-helm-command
+    needs: calculate-namespace
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
-      helm-command: "${{ needs.calculate-helm-command.outputs.helm-command }}"
-      cluster-name: "${{ needs.calculate-helm-command.outputs.cluster-name }}"
+      helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} --set cluster.name=${{ inputs.cluster-name }} -f values-gke-github.yaml"
+      cluster-name: "${{ inputs.cluster-name }}"
     secrets: inherit
