@@ -46,6 +46,6 @@ jobs:
     needs: calculate-namespace
     uses: mehmetsalgar/fsm-akka-github-workflows/.github/workflows/helm-install.yaml@master
     with:
-      helm-command: "helm upgrade fsm-akka . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} --set cluster.name=${{ inputs.cluster-name }} -f values-gke-github.yaml"
+      helm-command: "helm upgrade fsm-akka-4eyes . --install -n ${{ needs.calculate-namespace.outputs.namespace }} --create-namespace --set targetBranch=${{ inputs.branch-name }} --set cluster.name=${{ inputs.cluster-name }} -f values-gke-github.yaml"
       cluster-name-not-normalised: "fsmakka-gke-dev"
     secrets: inherit
